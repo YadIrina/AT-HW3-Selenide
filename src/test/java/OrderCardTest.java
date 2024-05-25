@@ -11,7 +11,7 @@ public class OrderCardTest {
     void shouldTest() {
         open("http://localhost:9999");
         SelenideElement form = $(".form");
-        form.$("[data-test-id=name] input").setValue("Иванов Иван");
+        form.$("[data-test-id=name] input").setValue("Иван Иванов");
         form.$("[data-test-id=phone] input").setValue("+79820000000");
         form.$("[data-test-id=agreement]").click();
         form.$(".button__text").click();
@@ -119,5 +119,16 @@ public class OrderCardTest {
         //form.$("[data-test-id=agreement]").click();
         form.$(".button__text").click();
         $("[data-test-id=agreement].input_invalid .checkbox__text").shouldBe(visible);
+    }
+
+    @Test
+    void shouldTestWithoutPhone() {
+        open("http://localhost:9999");
+        SelenideElement form = $(".form");
+        form.$("[data-test-id=name] input").setValue("Иванов Иван");
+        form.$("[data-test-id=phone] input").setValue("");
+        form.$("[data-test-id=agreement]").click();
+        form.$(".button__text").click();
+        $("[data-test-id='phone'].input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
     }
 }
